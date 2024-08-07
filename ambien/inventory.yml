@@ -1,0 +1,24 @@
+all:
+  children:
+    ami:
+      vars:
+        builder_type: "ami"
+      children:
+        ubuntu_ami:
+          vars:
+            os_type: "ubuntu"
+            source_ami: "ami-0f2175c525a037449"
+          hosts:
+            ubuntu_ami_host:
+        debian_ami:
+          vars:
+            os_type: "debian"
+            source_ami: "ami-0412f254d6640b73a"
+          hosts:
+            debian_ami_host:
+        windows_ami:
+          vars:
+            os_type: "windows"
+            source_ami: "ami-0575e37063e3ad6b4"
+          hosts:
+            windows_ami_host:

@@ -1,0 +1,27 @@
+- name: Generate Packer templates
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Create directory for generated templates
+      file:
+        path: "./generated_templates"
+        state: directory
+      delegate_to: localhost
+
+    - name: Generate Docker Packer template
+      template:
+        src: docker.pkr.hcl.j2
+        dest: "./generated_templates/{{ inventory_hostname }}_docker.pkr.hcl"
+      when: builder_type == "docker"
+      vars:
+        os_image: "{{ os_type }}:latest"
+      delegate_to: localhost
+
+    - name: Generate AMI Packer template
+      template:
+        src: ami.pkr.hcl.j2
+        dest: "./generated_templates/{{ inventory_hostname }}_ami.pkr.hcl"
+      when: builder_type == "ami"
+      vars:
+        source_ami: "ami-12345678"
+      delegate_to: localhost
